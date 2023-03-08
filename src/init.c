@@ -9,6 +9,15 @@ void initSDL(void)
 {
     int rendererFlags, windowFlags;
 
+    /* resolução da tela no Windows ...
+    SDL_DisplayMode DM;
+    SDL_GetDesktopDisplayMode(0, &DM);
+    auto int SCREEN_WIDTH = DM.w;
+    auto int SCREEN_HEIGHT = DM.h; */
+
+    /* resolução da tela no Linux */
+    /* ... */
+
     rendererFlags = SDL_RENDERER_ACCELERATED;
     windowFlags = 0;
 
@@ -42,6 +51,9 @@ void initSDL(void)
         printf("Failed to create renderer: %s\n", SDL_GetError());
         exit(EXIT_FAILURE);
     }
+
+    /* inicializa o suporte a imagens jpg e png */
+    IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
 }
 
 void cleanup(void)
