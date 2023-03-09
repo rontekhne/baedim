@@ -9,17 +9,8 @@ void initSDL(void)
 {
     int rendererFlags, windowFlags;
 
-    /* resolução da tela no Windows ...
-    SDL_DisplayMode DM;
-    SDL_GetDesktopDisplayMode(0, &DM);
-    auto int SCREEN_WIDTH = DM.w;
-    auto int SCREEN_HEIGHT = DM.h; */
-
-    /* resolução da tela no Linux */
-    /* ... */
-
     rendererFlags = SDL_RENDERER_ACCELERATED;
-    windowFlags = 0;
+    windowFlags = 0; /*SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_MAXIMIZED; */
 
     /* inicia o modo de vídeo da SDL */
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -62,3 +53,4 @@ void cleanup(void)
     SDL_DestroyWindow(game.window);
     SDL_Quit();
 }
+

@@ -10,6 +10,7 @@ typedef struct
     int down;
     int left;
     int right;
+    int power;
 } Game;
 
 /* a estrutura Entity contém as referências às 
@@ -18,5 +19,8 @@ typedef struct
 {
     int x;
     int y;
+    int dx;
+    int dy;
+    int health;
     SDL_Texture *texture;
 } Entity;

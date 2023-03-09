@@ -2,3 +2,5 @@ build
 Baedim
 baedim.exe
 .git
+CMakeCache.txt
+CMakeFiles
