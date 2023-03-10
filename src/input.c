@@ -7,51 +7,21 @@ extern Game game;
 
 /* mais scancodes em https://wiki.libsdl.org/SDL_Scancode */
 
-/* gerencia as teclas que são apertadas */
-void doKeyDown(SDL_KeyboardEvent *event)
-{
-    if (event->repeat == 0) {
-        if (event->keysym.scancode == SDL_SCANCODE_UP) {
-            game.up = 1;
-        }
-        if (event->keysym.scancode == SDL_SCANCODE_DOWN) {
-            game.down = 1;
-        }
-        if (event->keysym.scancode == SDL_SCANCODE_LEFT) {
-            game.left = 1;
-        }
-        if (event->keysym.scancode == SDL_SCANCODE_RIGHT) {
-            game.right = 1;
-        }
-        if (event->keysym.scancode == SDL_SCANCODE_LCTRL) {
-            game.power = 1;
-        }
-
-    }
-}
-
 /* gerencia as teclas que são liberadas  */
 void doKeyUp(SDL_KeyboardEvent *event)
 {
-    if (event->repeat == 0) {
-        if (event->keysym.scancode == SDL_SCANCODE_UP) {
-            game.up = 0;
-        }
-        if (event->keysym.scancode == SDL_SCANCODE_DOWN) {
-            game.down = 0;
-        }
-        if (event->keysym.scancode == SDL_SCANCODE_LEFT) {
-            game.left = 0;
-        }
-        if (event->keysym.scancode == SDL_SCANCODE_RIGHT) {
-            game.right = 0;
-        }
-        if (event->keysym.scancode == SDL_SCANCODE_LCTRL) {
-            game.power = 0;
-        }
-
+    if (event->repeat == 0 && event->keysym.scancode < MAX_KEYBOARD_KEYS) {
+        game.keyboard[event->keysym.scancode] = 0;
     }
 }
+/* gerencia as teclas que são apertadas */
+void doKeyDown(SDL_KeyboardEvent *event)
+{
+    if (event->repeat == 0 && event->keysym.scancode < MAX_KEYBOARD_KEYS) {
+        game.keyboard[event->keysym.scancode] = 1;
+    }
+}
+
 
 void doInput(void)
 {
@@ -63,6 +33,9 @@ void doInput(void)
                 exit(EXIT_SUCCESS);
                 break;
             case SDL_KEYDOWN:
+                if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE) {
+                    exit(EXIT_SUCCESS);
+                }
                 doKeyDown(&event.key);
                 break;
             case SDL_KEYUP:

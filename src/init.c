@@ -5,12 +5,15 @@
 
 extern Game game;
 
+extern int SCREEN_WIDTH;
+extern int SCREEN_HEIGHT;
+
 void initSDL(void)
 {
     int rendererFlags, windowFlags;
 
     rendererFlags = SDL_RENDERER_ACCELERATED;
-    windowFlags = 0; /*SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_MAXIMIZED; */
+    windowFlags = 0;//SDL_WINDOW_OPENGL | /*SDL_WINDOW_RESIZABLE |*/ SDL_WINDOW_MAXIMIZED; 
 
     /* inicia o modo de vídeo da SDL */
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -23,8 +26,8 @@ void initSDL(void)
         "Baedim",
         SDL_WINDOWPOS_UNDEFINED,
         SDL_WINDOWPOS_UNDEFINED,
-        SCREEN_WIDTH,
-        SCREEN_HEIGHT,
+        0, //SCREEN_WIDTH,
+        0, //SCREEN_HEIGHT,
         windowFlags);
 
     if (!game.window) {
@@ -43,6 +46,12 @@ void initSDL(void)
         exit(EXIT_FAILURE);
     }
 
+    /* tela cheia */
+    SDL_SetWindowFullscreen(game.window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+    /* pega o tamanho da janela */
+    SDL_GetRendererOutputSize(game.renderer, &SCREEN_WIDTH, &SCREEN_HEIGHT);
+    printf("SCREEN_WIDTH = %d\nSCREEN_HEIGHT = %d\n", SCREEN_WIDTH, SCREEN_HEIGHT);
+
     /* desabilita o cursor */
     SDL_ShowCursor(SDL_DISABLE);
 
@@ -52,6 +61,7 @@ void initSDL(void)
 
 void cleanup(void)
 {
+    IMG_Quit();
     SDL_DestroyRenderer(game.renderer);
     SDL_DestroyWindow(game.window);
     SDL_Quit();
