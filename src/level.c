@@ -175,12 +175,10 @@ static void spawnEnemies(void)
         enemy->y = rand() % SCREEN_HEIGHT;
         enemy->texture = enemyTexture;
         SDL_QueryTexture(enemy->texture, NULL, NULL, &enemy->w, &enemy->h);
-            
-        
-        enemy->dx = -(2 + (rand() % 4)); // velocidade (speed) entre -2 e -5   
-        enemy->dy = player->dy / (PLAYER_SPEED * 2);
+       
+        // aqui o enemy vai em direção ao limite esquerdo da tela
+        //enemy->dx = -(2 + (rand() % 4)); // velocidade (speed) entre -2 e -5   
 
-        //enemy->dy = player->dy;
         enemySpawnTimer = 30 + (rand() % 89); // novo enemy aparece entre 0.5 e 1.5 segundos ou 30 e 89 milisegundos
     }
 }
@@ -196,7 +194,25 @@ static void drawFighters(void)
 {
     Entity *e;
     
+    double hyp; // normaliza
+
     for (e = level.fighterHead.next; e != NULL; e = e->next) {
+        // enemy anda no sentido do player até matá-lo ou ser morto
+        if (e != player) {
+            // calcula a direção entre o player e o enemy
+            e->dx = (double)(player->x - e->x);
+            e->dy = (double)(player->y - e->y);
+            // normaliza, isto é, divide os termos pela magnitude (hipotenusa)            
+            hyp = sqrt(e->dx*e->dx + e->dy*e->dy);
+            e->dx /= hyp;
+            e->dy /= hyp;
+
+            // adiciona a direção à posição do enemy (e multiplica) 
+            // (ainda precisa definir a velocidade que será multiplicada pela direção)
+            e->x += e->dx; // * speed
+            e->y += e->dy; // * speed
+        }  
+
         blit(e->texture, e->x, e->y);
     }
 }
