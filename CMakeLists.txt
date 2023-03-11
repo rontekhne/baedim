@@ -7,7 +7,7 @@ pkg_search_module(SDL2_MIXER REQUIRED SDL2_mixer)
 pkg_search_module(SDL2_IMAGE REQUIRED SDL2_image)
 pkg_search_module(SDL2_TTF REQUIRED SDL2_ttf)
 
-add_compile_options(-lm -Wall -Wempty-body -Werror -Wstrict-prototypes -Werror=maybe-uninitialized -Warray-bounds -g -lefence)
+add_compile_options(-Wall -Wempty-body -Werror -Wstrict-prototypes -Werror=maybe-uninitialized -Warray-bounds -g -lefence -lm)
 
 #Add the include directories of the (found) libraries.
 Include_Directories(
@@ -30,4 +30,5 @@ Target_Link_Libraries (
  	${SDL2_MIXER_LIBRARIES}
  	${SDL2_IMAGE_LIBRARIES}
  	${SDL2_TTF_LIBRARIES}
+    -lm
 )

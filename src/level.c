@@ -124,7 +124,7 @@ static void doFighters(void)
         e->x += e->dx;
         e->y += e->dy;
 
-        if (e != player && e->x < -e->w) {
+        if (e != player && e->x < -e->w) {            
             if (e == level.fighterTail) {
                 level.fighterTail = prev;
             }
@@ -175,9 +175,13 @@ static void spawnEnemies(void)
         enemy->y = rand() % SCREEN_HEIGHT;
         enemy->texture = enemyTexture;
         SDL_QueryTexture(enemy->texture, NULL, NULL, &enemy->w, &enemy->h);
+            
+        
+        enemy->dx = -(2 + (rand() % 4)); // velocidade (speed) entre -2 e -5   
+        enemy->dy = player->dy / (PLAYER_SPEED * 2);
 
-        enemy->dx = -(2 + (rand() % 4));
-        enemySpawnTimer = 30 + (rand() % 60);
+        //enemy->dy = player->dy;
+        enemySpawnTimer = 30 + (rand() % 89); // novo enemy aparece entre 0.5 e 1.5 segundos ou 30 e 89 milisegundos
     }
 }
 
@@ -191,7 +195,7 @@ static void draw(void)
 static void drawFighters(void)
 {
     Entity *e;
-
+    
     for (e = level.fighterHead.next; e != NULL; e = e->next) {
         blit(e->texture, e->x, e->y);
     }
