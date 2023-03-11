@@ -33,6 +33,7 @@ struct Entity
     float dy;
     int health;
     int reload;
+    int side;
     SDL_Texture *texture;
     Entity *next;
 };
